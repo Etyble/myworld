@@ -5,7 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 export async function getStaticPaths() {
   const writings = await getCollection("writings", ({ data }) => !data.draft);
   return writings.map((w) => ({
-    params: { slug: w.id },
+    params: { slug: w.slug },
     props: { writing: w },
   }));
 }

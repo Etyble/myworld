@@ -7,8 +7,8 @@ export interface Props {
 }
 
 const {
-  title = "MyWorld",
-  description = "Design, thoughts, and personal stash.",
+  title = "Etyble的小窝",
+  description = "Etyble 的个人网站 — 设计、思考与私货。",
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
@@ -19,6 +19,7 @@ const base = import.meta.env.BASE_URL;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚔</text></svg>" />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
     <title>{title}</title>
@@ -32,12 +33,13 @@ const base = import.meta.env.BASE_URL;
   <body>
     <header class="nav">
       <div class="container nav-inner">
-        <a href={base} class="logo">欢迎来到Etyble的网站</a>
+        <a href={base} class="logo">Etyble的小窝</a>
         <nav>
           <a href={base}>主页</a>
           <a href={base + "/blog"}>博客</a>
           <a href={base + "/plan"}>计划</a>
           <a href={base + "/tools"}>工具</a>
+          <a href={base + "/writings"}>碎碎念</a>
           <a href={base + "/originalworldview"}>设定集</a>
           <a href={base + "/about"}>关于我</a>
         </nav>

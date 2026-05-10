@@ -1,45 +1,59 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+
+const blogPosts = await getCollection("blog", ({ data }) => !data.draft);
+const writings = await getCollection("writings", ({ data }) => !data.draft);
+
+const allPosts = [...blogPosts.map(p => ({ ...p, type: "blog" })), ...writings.map(w => ({ ...w, type: "writings" }))];
+allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const latest = allPosts.slice(0, 4);
 ---
 
 <Layout>
   <!-- Disclaimer overlay -->
   <div id="disclaimer" class="disclaimer-overlay">
     <div class="disclaimer-card">
+      <button id="lang-toggle" class="lang-toggle">EN</button>
       <div class="disclaimer-icon">⚠</div>
-      <h2>声明 Disclaimer</h2>
+      <h2><span class="cn">声明</span><span class="en">Disclaimer</span></h2>
       <div class="disclaimer-body">
-        <p>本站所有内容仅代表<strong>个人观点</strong>，与任何组织、团体无关。</p>
-        <p>本站不构成任何形式的行为建议。访问者基于本站内容做出的任何行为（包括但不限于技术实践、投资决策、生活方式改变），<strong>均与本站及作者无关</strong>。</p>
-        <p>本站部分内容可能涉及<strong>前瞻性构想和未经验证的理论</strong>，请以批判性思维对待，保持独立思考。</p>
-        <p>进入本站前，请确认：</p>
-        <ul>
+        <p><span class="cn">本站所有内容仅代表<strong>个人观点</strong>，与任何组织、团体无关。</span><span class="en">All content represents <strong>personal views only</strong>, unrelated to any organization or group.</span></p>
+        <p><span class="cn">本站不构成任何形式的行为建议。访问者基于本站内容做出的任何行为，<strong>均与本站及作者无关</strong>。</span><span class="en">This site does not constitute any form of behavioral advice. The author is <strong>not responsible</strong> for any actions taken based on its content.</span></p>
+        <p><span class="cn">本站部分内容涉及<strong>前瞻性构想和未经验证的理论</strong>，请以批判性思维对待，保持独立思考。</span><span class="en">Some content involves <strong>speculative ideas and unverified theories</strong>. Approach with critical thinking.</span></p>
+        <p class="cn">进入本站前，请确认：</p>
+        <p class="en">Before entering, please confirm:</p>
+        <ul class="cn">
           <li>你具有<strong>完全民事行为能力</strong></li>
           <li>你能够<strong>区分观点与事实</strong></li>
           <li>你理解<strong>理想主义言论</strong>不代表现实可行性</li>
           <li>你不会将这里的任何内容<strong>用于非法或有害目的</strong></li>
-          <li>本站所有原创内容（绘画、文章、设定等）<strong>未经作者书面许可禁止转载、复制或二次使用</strong></li>
+          <li>本站所有原创内容<strong>未经作者书面许可禁止转载、复制或二次使用</strong></li>
+          <li>未经明确授权，<strong>禁止收集、存储或使用本站涉及的任何个人信息</strong></li>
         </ul>
-        <p class="disclaimer-final">保持理智在线，对自己负责。<br/>世界已经很乱了，不要因为我变得更乱。</p>
+        <ul class="en">
+          <li>You have <strong>full civil capacity</strong></li>
+          <li>You can <strong>distinguish opinion from fact</strong></li>
+          <li>You understand that <strong>idealistic statements</strong> do not guarantee real-world feasibility</li>
+          <li>You will not use any content here for <strong>illegal or harmful purposes</strong></li>
+          <li>All original content <strong>may not be reproduced without written permission</strong></li>
+          <li><strong>Collecting, storing, or using any personal information</strong> from this site is prohibited without explicit authorization</li>
+        </ul>
+        <p class="disclaimer-penalty"><span class="cn"><strong>违反后果：</strong>违反上述条款者，作者保留追究法律责任的权利，并有权采取技术手段限制其访问。侵权行为一经发现，将予以公开披露。</span><span class="en"><strong>Penalties:</strong> The author reserves the right to pursue legal action against violators and may restrict access through technical means. Infringements will be publicly disclosed upon discovery.</span></p>
+        <p class="disclaimer-final"><span class="cn">保持理智在线，对自己负责。世界已经很乱了，不要因为我变得更乱。</span><span class="en">Stay rational. Take responsibility for yourself. The world is messy enough — don't make it worse because of me.</span></p>
       </div>
-      <button id="disclaimer-btn" class="btn-primary">我理解，进入网站</button>
+      <button id="disclaimer-btn" class="btn-primary"><span class="cn">我理解，进入网站</span><span class="en">I Understand, Enter</span></button>
     </div>
   </div>
 
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="container hero-content">
-      <p class="greeting">Hello, I'm</p>
       <h1 class="title">
-        <span class="gradient-text">Etyble</span>
+        <span class="gradient-text">Welcome!</span>
       </h1>
-      <p class="subtitle">
-        Designer &amp; Builder. I make things that live at the intersection of
-        design and code.
-      </p>
-      <p class="tagline">
-        This is my corner of the internet — a stash of designs, thoughts, and
-        experiments.
+      <p class="welcome-text">
+        欢迎来到Etyble的小窝，这里包含了我绝大部分的思考和想象，你可以在这里疯狂地窥探我（当然这是一些可公开的内容，吧？），总之欢迎你的到来，请注意保持理智哦。
       </p>
     </div>
     <div class="scroll-hint">
@@ -52,16 +66,25 @@ import Layout from "../layouts/Layout.astro";
     <div class="container">
       <h2>Latest</h2>
       <div class="card-grid">
-        <article class="card">
-          <time>2026.05.10</time>
-          <h3><a href={import.meta.env.BASE_URL + "/blog/first"}>Getting Started</a></h3>
-          <p>The first post on MyWorld. Why I built this and what to expect.</p>
-        </article>
-        <article class="card">
-          <time>Coming soon</time>
-          <h3>Something cool</h3>
-          <p>More design experiments and ideas on the way.</p>
-        </article>
+        {latest.length > 0 ? (
+          latest.map((post) => {
+            const url = import.meta.env.BASE_URL + "/" + post.type + "/" + post.slug;
+            return (
+              <article class="card">
+                <time>{post.data.date.toLocaleDateString("zh-CN")}</time>
+                <span class="card-type">{post.type === "blog" ? "博客" : "碎碎念"}</span>
+                <h3><a href={url}>{post.data.title}</a></h3>
+                <p>{post.data.description || ""}</p>
+              </article>
+            );
+          })
+        ) : (
+          <article class="card">
+            <time>Coming soon</time>
+            <h3>还没有文章</h3>
+            <p>一些想法正在酝酿中。</p>
+          </article>
+        )}
       </div>
     </div>
   </section>
@@ -131,18 +154,12 @@ import Layout from "../layouts/Layout.astro";
     50% { background-position: 100% 50%; }
   }
 
-  .subtitle {
-    font-size: 1.15rem;
+  .welcome-text {
+    font-size: 1.1rem;
     color: var(--text-muted);
-    max-width: 500px;
-    margin: 0 auto 12px;
-    line-height: 1.7;
-  }
-
-  .tagline {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    opacity: 0.7;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.9;
   }
 
   .scroll-hint {
@@ -209,6 +226,18 @@ import Layout from "../layouts/Layout.astro";
     color: var(--text-muted);
   }
 
+  .card-type {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: rgba(124, 58, 237, 0.12);
+    color: var(--accent);
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.05em;
+  }
+
   .card h3 {
     margin: 8px 0;
     font-size: 1.1rem;
@@ -240,6 +269,7 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .disclaimer-card {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -256,6 +286,32 @@ import Layout from "../layouts/Layout.astro";
     text-align: center;
     margin-bottom: 16px;
   }
+
+  .lang-toggle {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .lang-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Bilingual visibility */
+  .en { display: none; }
+  body.lang-en .en { display: inline; }
+  body.lang-en .cn { display: none; }
 
   .disclaimer-card h2 {
     font-size: 1.3rem;
@@ -299,6 +355,21 @@ import Layout from "../layouts/Layout.astro";
     font-weight: 600;
   }
 
+  .disclaimer-penalty {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(239, 68, 68, 0.08);
+    border-left: 3px solid #ef4444;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+
+  .disclaimer-penalty strong {
+    color: #ef4444;
+  }
+
   .disclaimer-final {
     margin-top: 16px;
     padding-top: 16px;
@@ -319,12 +390,20 @@ import Layout from "../layouts/Layout.astro";
 </style>
 
 <script>
-  const disclaimer = document.getElementById("disclaimer");
-  const btn = document.getElementById("disclaimer-btn");
+  const disclaimer = document.getElementById("disclaimer")!;
+  const btn = document.getElementById("disclaimer-btn")!;
+  const langBtn = document.getElementById("lang-toggle")!;
+  let lang = "cn";
 
   if (sessionStorage.getItem("disclaimed")) {
     disclaimer.classList.add("hidden");
   }
+
+  langBtn.addEventListener("click", () => {
+    lang = lang === "cn" ? "en" : "cn";
+    document.body.classList.toggle("lang-en", lang === "en");
+    langBtn.textContent = lang === "cn" ? "EN" : "中";
+  });
 
   btn.addEventListener("click", () => {
     sessionStorage.setItem("disclaimed", "1");

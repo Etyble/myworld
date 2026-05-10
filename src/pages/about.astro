@@ -2,33 +2,1088 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="About — MyWorld">
-  <section class="section">
+<Layout title="关于我 — MyWorld" description="Etyble 的机密档案。">
+  <section class="about-page">
     <div class="container">
-      <h1 class="page-title">About</h1>
-      <div class="prose">
-        <p>Designer &amp; builder. I care about craft, detail, and making things that feel alive.</p>
-        <p>This space is where I stash my design experiments, half-formed ideas, and things I want to remember. No algorithm, no noise — just my world.</p>
+
+      <!-- Folder Tabs -->
+      <div class="folder-tabs">
+        <button class="folder-tab active" data-page="1">卷一 · 人格档案</button>
+        <button class="folder-tab" data-page="2">卷二 · 职业能力</button>
+      </div>
+
+      <!-- Pages wrapper -->
+      <div class="pages-wrapper">
+        <!-- ===== Page 1: Main Dossier ===== -->
+        <div class="dossier-page active" data-page="1">
+        <div class="dossier-panel">
+
+        <!-- Top strip: header -->
+        <div class="panel-top">
+          <div class="panel-badge">
+            <span class="badge-class">四级权限 · 机密档案</span>
+            <span class="badge-id">卷宗 ET-001</span>
+          </div>
+          <div class="panel-right">
+            <span class="panel-org">审判庭档案馆 · 理想主义教团</span>
+            <div class="panel-class">████ 绝密 ████</div>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="panel-body">
+          <!-- Photo + Core -->
+          <div class="id-section">
+            <div class="id-photo">
+              <div class="photo-placeholder">
+                <img
+                  src={import.meta.env.BASE_URL + "/avatar.jpg"}
+                  alt="Etyble"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <span class="photo-fallback">ET</span>
+              </div>
+              <div class="photo-label">SUBJECT #001 · 幼年期影像</div>
+              <div class="photo-note">此图像采集于该个体的早期发育阶段。成体后其面部生长出具备感知屏蔽能力的"面具"结构，后续图像采集均告失败。</div>
+            </div>
+            <div class="id-core">
+              <h1>Etyble <span class="aka">/ 心乱</span></h1>
+              <p class="id-title">唯物底座 · 唯心剑修 · 理想主义架构师</p>
+              <p class="id-status">
+                <span class="status-dot active"></span>
+                状态：活跃 · 游荡于阈限空间
+              </p>
+              <div class="core-bars">
+                <div class="core-bar">
+                  <span class="core-label">生命</span>
+                  <div class="core-track"><i style="width:73%"></i></div>
+                  <span class="core-val">73/100</span>
+                </div>
+                <div class="core-bar">
+                  <span class="core-label">理智</span>
+                  <div class="core-track"><i style="width:58%"></i></div>
+                  <span class="core-val">58/100</span>
+                </div>
+                <div class="core-bar">
+                  <span class="core-label">创造力</span>
+                  <div class="core-track"><i style="width:88%"></i></div>
+                  <span class="core-val">88/100</span>
+                </div>
+                <div class="core-bar">
+                  <span class="core-label">行动力</span>
+                  <div class="core-track"><i style="width:64%"></i></div>
+                  <span class="core-val">64/100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two column body -->
+          <div class="dossier-body">
+            <!-- LEFT: Stats -->
+            <div class="col-left">
+              <!-- Vital Stats -->
+              <div class="block">
+                <h3>▎基础数据</h3>
+                <table class="stat-table">
+                  <tr><td>代号</td><td>Etyble <span class="stat-note">← empty + bottle</span></td></tr>
+                  <tr><td>当前昵称</td><td>心乱 — 剑道未竟，心魔未斩</td></tr>
+                  <tr><td>性别</td><td>男</td></tr>
+                  <tr><td>MBTI</td><td>INF?TP</td></tr>
+                  <tr><td>阵营</td><td>混沌·善良</td></tr>
+                  <tr><td>睡眠相位</td><td>凌晨–中午（GMT+8偏移约6小时）</td></tr>
+                  <tr><td>威胁等级</td><td class="threat-minimal">MINIMAL</td></tr>
+                  <tr><td>收容状态</td><td>未收容 · 自由个体</td></tr>
+                  <tr><td>喜欢的数字</td><td>42</td></tr>
+                </table>
+              </div>
+
+              <!-- Equipment -->
+              <div class="block">
+                <h3>▎装备槽</h3>
+                <table class="stat-table">
+                  <tr><td>主武器</td><td>虚无三剑 · 合一形态</td></tr>
+                  <tr><td>副武器</td><td>想象力（无限弹药）</td></tr>
+                  <tr><td>防具</td><td>存在主义护盾 · 反意义侵蚀</td></tr>
+                  <tr><td>饰品</td><td>单边蓝牙耳机（双边陷入狂乱）</td></tr>
+                  <tr><td>载具</td><td>地铁 · 无座</td></tr>
+                </table>
+              </div>
+
+              <!-- Affiliations -->
+              <div class="block">
+                <h3>▎已知关联</h3>
+                <table class="stat-table">
+                  <tr><td>好BRO</td><td>长期读者 · 坚实后盾</td></tr>
+                  <tr><td>高中室长</td><td>生活艺术家 · 灵魂救赎者</td></tr>
+                  <tr><td>帝皇</td><td>尼莫点会面</td></tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- RIGHT: Lore + Skills -->
+            <div class="col-right">
+
+              <!-- Psych Evaluation -->
+              <div class="block">
+                <h3>▎心理评估摘要</h3>
+                <p>对象在童年–青春期经历了典型的"好孩子"高压模式，引发强迫性思维及焦虑症状。高二期间发生关键性<strong>觉醒事件</strong>——"人固有一死，不如把所有新鲜的感觉尝个遍"。冒险模块从此激活。</p>
+                <p>大学阶段，个体在杭州完成了<strong>"龙场悟道"</strong>。在长期与虚无的搏斗中，先后经历了"陷入虚无—寻找解药—误以为得救—再次坠入"的循环。最终在阅读与思考中领悟到：<strong>"要爱生活本身，不要爱生活的意义"</strong>。这一洞察成为其哲学体系的基石。</p>
+                <p>对象内部存在<strong>多重人格结构</strong>：一个批评者、一个辩护者、一个行动者、一个旁观者。各人格之间时而争吵时而合作，但均在主体人格"Etyble"的统合下运作。此结构被评估为<strong>功能性而非病理性</strong>——是对象独有的自我管理策略。</p>
+                <p>当前心理状态：<strong>稳定·唯物为基·唯心为剑</strong>。已将虚无、存在、荒诞"三剑合一"。对象坚信<strong>物质是世界的基础</strong>——要影响世界就不得不影响物质。在此底座之上，唯心剑法是精神层面的利器，用于驾驭虚无而非逃避现实。此招式威力绝伦，但每次使用均对魂魄造成反噬——对象对此已有预期并接受。善良与勇气被确认为核心资产。</p>
+                <p class="eval-stamp">评估结论：适合自由行动。不建议压制。建议保持当前生存环境中的自由参数。</p>
+              </div>
+
+              <!-- Tags -->
+              <div class="block">
+                <h3>▎特征标签</h3>
+                <div class="tag-set">
+                  <span>唯物主义</span><span>精神唯心</span><span>冒险者</span><span>夜猫子</span>
+                  <span>死线战士</span><span>社交恐怖分子</span><span>理想主义</span>
+                  <span>自由意志</span><span>反宿命论</span><span>40K</span>
+                  <span>草东</span><span>青钢影</span><span>村佬</span>
+                  <span>AI</span><span>绘画</span>
+                  <span>深夜思考</span><span class="tag-empty">+</span>
+                </div>
+              </div>
+
+                            <!-- Skills -->
+              <div class="block">
+                <h3>▎能力矩阵</h3>
+                <div class="skill-list">
+                  <div class="skill">
+                    <div class="skill-head">
+                      <span>唯心剑法 · 三剑合一</span>
+                      <span class="skill-lvl">MASTERY</span>
+                    </div>
+                    <div class="skill-bar"><i style="width:92%"></i></div>
+                    <p>虚无为锋、存在为脊、荒诞为格。可斩宇宙万物包括自身，每次使用折损魂魄。已能细致掌握分寸。</p>
+                  </div>
+                  <div class="skill">
+                    <div class="skill-head">
+                      <span>体系架构</span>
+                      <span class="skill-lvl">EXPERT</span>
+                    </div>
+                    <div class="skill-bar"><i style="width:75%"></i></div>
+                    <p>从代码到世界观到价值分配协议，系统性构建一切。</p>
+                  </div>
+                  <div class="skill">
+                    <div class="skill-head">
+                      <span>前瞻构想</span>
+                      <span class="skill-lvl">VISIONARY</span>
+                    </div>
+                    <div class="skill-bar"><i style="width:82%"></i></div>
+                    <p>脱离数据驱动的AI · 超越冯·诺依曼的硬件——方向已标定。</p>
+                  </div>
+                  <div class="skill">
+                    <div class="skill-head">
+                      <span>形意勾勒</span>
+                      <span class="skill-lvl">ADEPT</span>
+                    </div>
+                    <div class="skill-bar"><i style="width:65%"></i></div>
+                    <p>以笔墨为媒介，将心中意象投射于纸上。LOGO、班服、班旗——每一笔都是理想的投影。</p>
+                  </div>
+                  <div class="skill">
+                    <div class="skill-head">
+                      <span>情绪共鸣</span>
+                      <span class="skill-lvl">INNATE</span>
+                    </div>
+                    <div class="skill-bar"><i style="width:70%"></i></div>
+                    <p>音乐中放荡情感，如醉酒般忘记世间烦恼。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== Timeline (full width) ===== -->
+          <div class="block block-full">
+            <h3>▎行动记录 · 时间线</h3>
+            <div class="timeline">
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">童年–初中</span>
+                <p>"好孩子"模式运行中。成绩优异，恐惧犯错，焦虑种子植入。</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">高中</span>
+                <p>强迫性思维全面爆发。反复洗手、尺子画线、被害妄想、幻想绝症。系统濒临崩溃。</p>
+              </div>
+              <div class="tl-phase critical">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2023 · 高二 · 觉醒事件</span>
+                <p>一夜顿悟："人固有一死，不如尝遍新鲜"。冒险模块激活，自学绘画，为班级设计LOGO、班服、班旗。首个关键转折。《过往》记录于此。</p>
+              </div>
+              <div class="tl-phase critical">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2023–2024 · 宿舍时期</span>
+                <p>脱离家庭，成为内宿生。与室长——一位手持乱弹吉他和像素模糊老人机的"生活艺术家"——的遭遇产生了深远影响。"此时此刻恰如彼时彼刻"。最快乐的一段时光。一场救赎。</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2024 · 大学前期</span>
+                <p>旧系统故障复发。先后写下《虚无的开端》《陷入虚无》——在创新实践课的自学AI中找到了片刻的纯粹快乐。"不懂也嗯造"。</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2024 · 社交实验</span>
+                <p>从"社恐"短期突变为"社交恐怖分子"，利用此机会进行了代号00042-01的不严谨社会实验。"压抑的环境里很少有勇敢的人，可惜了那么多有趣的灵魂。"</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2024–2025 · 虚无剑道</span>
+                <p>在反复坠入虚无又爬起的过程中，锻造出以"虚无、存在、荒诞"三剑为根基的唯心剑道。领悟"要爱生活本身，不要爱生活的意义"。</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2025 · 村佬进城</span>
+                <p>杭州万象城——在苹果店的落地窗前看见自己缺了一半手机壳的破安卓。钱塘江边，雾很大，江水浑浊。"天呐，这就是未来么？"在苹果销售员的眼中看见了最虚无的眼神之一。</p>
+              </div>
+              <div class="tl-phase critical">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2025.12 · 三剑合一</span>
+                <p>杭州·龙场悟道。虚无、存在、荒诞——三者归一。此招可斩一切，每次使用折损魂魄。大学读得值得。</p>
+              </div>
+              <div class="tl-phase">
+                <div class="tl-marker"></div>
+                <span class="tl-era">2026 · 流浪宣言</span>
+                <p>"我要找到一个不存在的地方，在那里生长。"将善良置于流淌的浪漫之上，风吹在人海中掀起流浪。毕业前夕，未来未定。</p>
+              </div>
+              <div class="tl-phase pending">
+                <div class="tl-marker"></div>
+                <span class="tl-era">???</span>
+                <p class="redacted">[ DATA EXPUNGED — AWAITING INPUT ]</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quotes -->
+          <div class="block block-full block-quotes">
+            <h3>▎通讯记录截获</h3>
+            <div class="comms">
+              <div class="comm"><span class="comm-id">INTERNAL/觉醒日志_2023</span>"未知就是生活，冒险就是生活，疯狂就是生活，自由就是生活。"</div>
+              <div class="comm"><span class="comm-id">INTERNAL/哲学笔记_2024</span>"要爱生活本身，不要爱生活的意义。"<span class="comm-note">——读到这段话时，像快饿死的人吃上了热腾腾的米饭</span></div>
+              <div class="comm"><span class="comm-id">INTERNAL/虚无剑道_2025</span>"心无矩则从心所欲。纵有天地广阔，任我飞扬。"</div>
+              <div class="comm"><span class="comm-id">INTERNAL/流浪宣言_2026</span>"人生就是一朵巨大的流浪。"</div>
+              <div class="comm"><span class="comm-id">EXT/ROOMMATE_CHANNEL</span>"此时此刻恰如彼时彼刻。"<span class="comm-note">——每一次晚自习放学</span></div>
+              <div class="comm"><span class="comm-id">EXT/SOCIAL_EXPERIMENT_00042-01</span>"压抑的环境里很少有勇敢的人，可惜了那么多有趣的灵魂。"</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom strip -->
+        <div class="panel-bottom">
+          <span>FILE: ET-001 // UPDATED: 2026.05.11 // COMPILED BY: INQUISITORIAL ARCHIVES</span>
+          <span class="page-num">PAGE 1 OF 2</span>
+        </div>
       </div>
     </div>
+        </div>
+  
+      <!-- ===== Page 2: Professional Profile ===== -->
+      <div class="dossier-page" data-page="2">
+      <div class="dossier-panel">
+        <div class="panel-top">
+          <div class="panel-badge">
+            <span class="badge-class">档案附录 · 职业档案</span>
+            <span class="badge-id">卷宗 ET-001-B</span>
+          </div>
+          <div class="panel-right">
+            <span class="panel-org">审判庭档案馆 · 理想主义教团</span>
+            <div class="panel-class panel-public">████ 可公开 ████</div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="block">
+            <h3>▎技术栈</h3>
+            <div class="skill-list">
+              <div class="skill">
+                <div class="skill-head">
+                  <span>AI 协作 · 提示词工程</span>
+                  <span class="skill-lvl">MASTERY</span>
+                </div>
+                <div class="skill-bar"><i style="width:95%"></i></div>
+                <p>深度掌握 AI 辅助开发全流程。模糊想法 → 可运行原型（前后端、脚本、SQL、测试），以 AI 加速学习陌生技术栈。</p>
+              </div>
+              <div class="skill">
+                <div class="skill-head">
+                  <span>C / C++ / Python / JS / HTML/CSS</span>
+                  <span class="skill-lvl">EXPERT</span>
+                </div>
+                <div class="skill-bar"><i style="width:78%"></i></div>
+                <p>多语言栈。熟悉软件架构设计及开发流程，能基于时空复杂度分析和优化代码。</p>
+              </div>
+              <div class="skill">
+                <div class="skill-head">
+                  <span>深度学习 & PyTorch</span>
+                  <span class="skill-lvl">ADVANCED</span>
+                </div>
+                <div class="skill-bar"><i style="width:70%"></i></div>
+                <p>了解深度学习底层原理，有独立模型开发经验。毕设方向为 AI 相关。</p>
+              </div>
+              <div class="skill">
+                <div class="skill-head">
+                  <span>视觉设计 & Blender</span>
+                  <span class="skill-lvl">ADEPT</span>
+                </div>
+                <div class="skill-bar"><i style="width:68%"></i></div>
+                <p>基础美术与线稿设计，可辅助 AI 生图。Blender 经验，能衔接 UI 与功能开发，减少协作损耗。</p>
+              </div>
+              <div class="skill">
+                <div class="skill-head">
+                  <span>项目协调 · 独狼双模</span>
+                  <span class="skill-lvl">PROVEN</span>
+                </div>
+                <div class="skill-bar"><i style="width:72%"></i></div>
+                <p>独立定位根因并验证方案。在校多次协调多角色成员完成项目交付。可独狼可团队。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ops Matrix (from original insertion, moved here) -->
+<!-- ===== Deployable Operations Matrix ===== -->
+          <div class="block block-full">
+            <h3>▎可部署行动矩阵 · 收益能力清单</h3>
+            <p class="block-intro">对象具备多种可转化为收入的技能。以下按作战域分类，标注熟练度与评估。</p>
+
+            <h4 class="sub-block-title">I. 赛博作战域（远程 · 无需物理移动）</h4>
+            <div class="ops-grid">
+              <div class="ops-item ops-high"><span class="ops-name">PPT 美化/制作</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">简历精修/排版</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">Word 排版/文档整理</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">Excel 数据处理</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">文案</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">视频剪辑</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">手绘/插画</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">海报设计</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">数据标注</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">游戏代练/陪玩</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">公众号排版</span><span class="ops-tag">◐ 未接触</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">修图/调色</span><span class="ops-tag">◐ 基础</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">翻译（中英）</span><span class="ops-tag">✗ 不可</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">配音/朗读</span><span class="ops-tag">✗ 不可</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">线上客服</span><span class="ops-tag">✗ AI已替代</span></div>
+            </div>
+
+            <h4 class="sub-block-title">II. 实地作战域（需物理到场）</h4>
+            <div class="ops-grid">
+              <div class="ops-item ops-high"><span class="ops-name">展会/活动协助</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">宠物代遛/上门喂猫</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">植物浇水/取快递</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">活动充场</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">试吃/试饮员</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">模特/群演</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">陪拍/跟拍</span><span class="ops-tag">◐ 无摄影基础</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">搬家/搬运工</span><span class="ops-tag">◐ 体能存疑</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">餐饮/收银/外卖</span><span class="ops-tag">✗ 不自由</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">发传单/地推</span><span class="ops-tag">✗ 低效</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">家教</span><span class="ops-tag">✗ 对象为儿童</span></div>
+            </div>
+
+            <h4 class="sub-block-title">III. 情报作战域（信息差·社交工程）</h4>
+            <div class="ops-grid">
+              <div class="ops-item ops-high"><span class="ops-name">闲鱼倒卖</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">帮人抢票</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">找资源</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-high"><span class="ops-name">探店拍照</span><span class="ops-tag">√</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">二手回收转卖</span><span class="ops-tag">◐ 需专业知识</span></div>
+              <div class="ops-item ops-mid"><span class="ops-name">小红书代运营</span><span class="ops-tag">◐ 未接触</span></div>
+              <div class="ops-item ops-low"><span class="ops-name">社群运营</span><span class="ops-tag">✗ 风险/无聊</span></div>
+            </div>
+          </div>
+
+          
+        </div>
+        <div class="panel-bottom">
+          <span>FILE: ET-001-B // COMPILED FOR DEPLOYMENT READINESS</span>
+          <span class="page-num">PAGE 2 OF 2</span>
+        </div>
+      </div>
+        </div>
+      </div>
   </section>
 </Layout>
 
+<script>
+  const tabs = document.querySelectorAll(".folder-tab");
+  const pages = document.querySelectorAll(".dossier-page");
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.page;
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      pages.forEach((p) => {
+        p.classList.remove("active");
+        if (p.dataset.page === target) {
+          p.classList.add("active");
+          p.style.animation = "none";
+          p.offsetHeight;
+          p.style.animation = "page-flip-in 0.35s ease-out";
+        }
+      });
+    });
+  });
+</script>
+
 <style>
-  .section {
-    padding: 80px 0;
+  .about-page {
+    padding: 60px 0 120px;
   }
 
-  .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 32px;
+  .about-page .container {
+    max-width: 900px;
   }
 
-  .prose p {
+  /* ---- Folder Tabs ---- */
+  .folder-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .folder-tab {
+    padding: 10px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
     color: var(--text-muted);
-    font-size: 1.05rem;
-    line-height: 1.8;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: inherit;
+    opacity: 0.55;
+  }
+
+  .folder-tab:hover {
+    opacity: 0.8;
+    color: var(--text);
+  }
+
+  .folder-tab.active {
+    opacity: 1;
+    color: var(--accent);
+    background: var(--surface);
+  }
+
+  /* ---- Pages Wrapper (global for JS toggle) ---- */
+
+
+
+  /* ---- Main Panel ---- */
+  .dossier-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    max-width: 860px;
+    margin: 0 auto;
+    box-shadow:
+      0 4px 24px rgba(0,0,0,0.3),
+      0 1px 0 rgba(255,255,255,0.02) inset;
+  }
+
+  .panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 14px 24px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .badge-class {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: #8b6914;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .badge-id {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    font-family: monospace;
+  }
+
+  .panel-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .panel-org {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  .panel-class {
+    color: #ef4444;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+  }
+
+  .panel-class.panel-public {
+    color: #22c55e;
+  }
+
+  .panel-body {
+    padding: 28px;
+  }
+
+  .panel-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 20px;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .page-num {
+    font-family: monospace;
+  }
+
+  /* ---- ID Section ---- */
+  .id-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 80px;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+    border-bottom: 2px dashed var(--border);
+  }
+
+  .id-photo {
+    flex-shrink: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .photo-placeholder {
+    width: 100px;
+    height: 120px;
+    background: var(--bg);
+    border: 2px solid #8b6914;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    font-family: monospace;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 3px var(--bg), 0 0 0 4px var(--border);
+  }
+
+  .photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    object-position: center 15%;
+    filter: grayscale(0.15);
+  }
+
+  .photo-fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-label {
+    margin-top: 8px;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .photo-note {
+    margin-top: 6px;
+    font-size: 0.65rem;
+    color: #8b6914;
+    line-height: 1.5;
+    text-align: center;
+    font-style: italic;
+    max-width: 160px;
+    opacity: 0.8;
+  }
+
+  .id-core {
+    flex: 1;
+    padding-left: 8px;
+  }
+
+  .id-core h1 {
+    font-size: 2.5rem;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .aka {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .id-title {
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .id-status {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .status-dot.active {
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+  }
+
+  .core-bars {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .core-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .core-label {
+    width: 48px;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .core-track {
+    flex: 1;
+    height: 4px;
+    background: var(--bg);
+    max-width: 200px;
+  }
+
+  .core-track i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #8b6914, var(--accent));
+  }
+
+  .core-val {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-family: monospace;
+    width: 52px;
+    text-align: right;
+  }
+
+  /* ---- Body Columns ---- */
+  .dossier-body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 36px;
+  }
+
+  /* ---- Blocks ---- */
+  .block {
+    margin-bottom: 24px;
+  }
+
+  .block h3 {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: #8b6914;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .block-full {
+    margin-top: 8px;
+    padding-top: 24px;
+    border-top: 2px dashed var(--border);
+  }
+
+  .block-quotes {
+    border-top: 2px dashed var(--border);
+  }
+
+  /* ---- Stat Table ---- */
+  .stat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .stat-table tr {
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .stat-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .stat-table td {
+    padding: 7px 0;
+    font-size: 0.82rem;
+    vertical-align: top;
+  }
+
+  .stat-table td:first-child {
+    width: 80px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-table td:last-child {
+    color: var(--text);
+  }
+
+  .stat-note {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .redacted {
+    background: #1a1a1a !important;
+    color: #1a1a1a !important;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+  }
+
+  .redacted:hover {
+    background: #333 !important;
+    color: #333 !important;
+  }
+
+  .threat-minimal {
+    color: #22c55e !important;
+  }
+
+  /* ---- Psych ---- */
+  .block p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+
+  .eval-stamp {
+    color: #22c55e !important;
+    font-weight: 600;
+    border-left: 2px solid #22c55e;
+    padding-left: 12px;
+  }
+
+  /* ---- Tags ---- */
+  .tag-set {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag-set span {
+    padding: 4px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.76rem;
+    color: var(--text);
+    letter-spacing: 0.03em;
+  }
+
+  .tag-empty {
+    border-style: dashed !important;
+    color: var(--text-muted) !important;
+    cursor: pointer;
+  }
+
+  /* ---- Skills ---- */
+  .skill {
     margin-bottom: 16px;
-    max-width: 600px;
+  }
+
+  .skill:last-child { margin-bottom: 0; }
+
+  .skill-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+  }
+
+  .skill-lvl {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .skill-bar {
+    height: 4px;
+    background: var(--bg);
+    margin-bottom: 4px;
+  }
+
+  .skill-bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #8b6914, var(--accent));
+  }
+
+  .skill p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  /* ---- Timeline ---- */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    border-left: 1px solid var(--border);
+  }
+
+  .tl-phase {
+    position: relative;
+    margin-bottom: 18px;
+  }
+
+  .tl-phase:last-child { margin-bottom: 0; }
+
+  .tl-marker {
+    position: absolute;
+    left: -28px;
+    top: 3px;
+    width: 9px;
+    height: 9px;
+    background: var(--border);
+    border: 2px solid var(--surface);
+  }
+
+  .tl-phase.critical .tl-marker {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  .tl-phase.pending .tl-marker {
+    border-style: dashed;
+  }
+
+  .tl-era {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .tl-phase p {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* ---- Ops Grid ---- */
+  .block-intro {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+
+  .sub-block-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 20px 0 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .ops-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .ops-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.78rem;
+    gap: 8px;
+  }
+
+  .ops-name {
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  .ops-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .ops-high .ops-tag {
+    color: #22c55e;
+    background: rgba(34,197,94,0.1);
+  }
+
+  .ops-mid .ops-tag {
+    color: #f59e0b;
+    background: rgba(245,158,11,0.1);
+  }
+
+  .ops-low .ops-tag {
+    color: #ef4444;
+    background: rgba(239,68,68,0.1);
+  }
+
+  /* ---- Comms ---- */
+  .comms {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .comm {
+    padding: 14px 18px;
+    background: var(--bg);
+    border-left: 2px solid var(--accent);
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .comm-id {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: #8b6914;
+    margin-bottom: 4px;
+    font-style: normal;
+  }
+
+  .comm-note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: normal;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 750px) {
+    .dossier-body {
+      grid-template-columns: 1fr;
+    }
+    .id-section {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .id-status {
+      justify-content: center;
+    }
+    .panel-body {
+      padding: 16px;
+    }
+    .panel-stamp {
+      flex-direction: column;
+      gap: 2px;
+    }
+    .class-banner {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+  }
+
+
+</style>
+
+<style is:global>
+  .pages-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dossier-page {
+    display: none;
+  }
+
+  .dossier-page.active {
+    display: block;
+    animation: page-flip-in 0.35s ease-out;
+  }
+
+  @keyframes page-flip-in {
+    from {
+      opacity: 0;
+      transform: translateX(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 </style>

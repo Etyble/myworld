@@ -6,10 +6,11 @@ const posts = await getCollection("blog", ({ data }) => !data.draft);
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<Layout title="Blog — MyWorld" description="Writings and thoughts.">
+<Layout title="博客 — MyWorld" description="工作进展与技术记录。">
   <section class="section">
     <div class="container">
-      <h1 class="page-title">Blog</h1>
+      <h1 class="page-title">博客</h1>
+      <p class="page-desc">工作进展、技术记录。</p>
       <div class="post-list">
         {posts.length > 0 ? (
           posts.map((post) => (
@@ -28,38 +29,12 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 </Layout>
 
 <style>
-  .section {
-    padding: 80px 0;
-  }
-
-  .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 48px;
-  }
-
-  .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  .post-item time {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .post-item h2 {
-    font-size: 1.3rem;
-    margin: 4px 0;
-  }
-
-  .post-item p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-  }
-
-  .empty {
-    color: var(--text-muted);
-    font-style: italic;
-  }
+  .section { padding: 80px 0; }
+  .page-title { font-size: 2.5rem; margin-bottom: 8px; }
+  .page-desc { color: var(--text-muted); margin-bottom: 48px; }
+  .post-list { display: flex; flex-direction: column; gap: 32px; }
+  .post-item time { font-size: 0.8rem; color: var(--text-muted); }
+  .post-item h2 { font-size: 1.3rem; margin: 4px 0; }
+  .post-item p { color: var(--text-muted); font-size: 0.95rem; }
+  .empty { color: var(--text-muted); font-style: italic; }
 </style>

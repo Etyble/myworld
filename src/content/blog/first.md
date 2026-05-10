@@ -1,11 +1,7 @@
 ---
-title: "Getting Started"
+title: "施工中"
 date: 2026-05-10
-description: "The first post on MyWorld. Why I built this and what to expect."
+description: "这里还在施工，去别处逛逛吧。"
 ---
 
-This is the first post on MyWorld.
-
-I built this space to share design experiments, ideas, and things that inspire me. No templates, no constraints — just a blank canvas.
-
-More to come. Stay tuned.
+保持好奇。
