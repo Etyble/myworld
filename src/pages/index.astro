@@ -1,0 +1,333 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <!-- Disclaimer overlay -->
+  <div id="disclaimer" class="disclaimer-overlay">
+    <div class="disclaimer-card">
+      <div class="disclaimer-icon">⚠</div>
+      <h2>声明 Disclaimer</h2>
+      <div class="disclaimer-body">
+        <p>本站所有内容仅代表<strong>个人观点</strong>，与任何组织、团体无关。</p>
+        <p>本站不构成任何形式的行为建议。访问者基于本站内容做出的任何行为（包括但不限于技术实践、投资决策、生活方式改变），<strong>均与本站及作者无关</strong>。</p>
+        <p>本站部分内容可能涉及<strong>前瞻性构想和未经验证的理论</strong>，请以批判性思维对待，保持独立思考。</p>
+        <p>进入本站前，请确认：</p>
+        <ul>
+          <li>你具有<strong>完全民事行为能力</strong></li>
+          <li>你能够<strong>区分观点与事实</strong></li>
+          <li>你理解<strong>理想主义言论</strong>不代表现实可行性</li>
+          <li>你不会将这里的任何内容<strong>用于非法或有害目的</strong></li>
+          <li>本站所有原创内容（绘画、文章、设定等）<strong>未经作者书面许可禁止转载、复制或二次使用</strong></li>
+        </ul>
+        <p class="disclaimer-final">保持理智在线，对自己负责。<br/>世界已经很乱了，不要因为我变得更乱。</p>
+      </div>
+      <button id="disclaimer-btn" class="btn-primary">我理解，进入网站</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <p class="greeting">Hello, I'm</p>
+      <h1 class="title">
+        <span class="gradient-text">Du Fei</span>
+      </h1>
+      <p class="subtitle">
+        Designer &amp; Builder. I make things that live at the intersection of
+        design and code.
+      </p>
+      <p class="tagline">
+        This is my corner of the internet — a stash of designs, thoughts, and
+        experiments.
+      </p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Latest</h2>
+      <div class="card-grid">
+        <article class="card">
+          <time>2026.05.10</time>
+          <h3><a href="/blog/first">Getting Started</a></h3>
+          <p>The first post on MyWorld. Why I built this and what to expect.</p>
+        </article>
+        <article class="card">
+          <time>Coming soon</time>
+          <h3>Something cool</h3>
+          <p>More design experiments and ideas on the way.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124, 58, 237, 0.12), transparent),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(167, 139, 250, 0.06), transparent);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    animation: rise 1s ease-out;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .greeting {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 40%, #6366f1 70%, #a78bfa 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 6s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto 12px;
+    line-height: 1.7;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--text-muted), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ---- Latest section ---- */
+  .section {
+    padding: 80px 0;
+  }
+
+  .section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 32px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .card:hover {
+    border-color: var(--accent-glow);
+    transform: translateY(-2px);
+  }
+
+  .card time {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .card h3 {
+    margin: 8px 0;
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ---- Disclaimer ---- */
+  .disclaimer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .disclaimer-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .disclaimer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    max-width: 560px;
+    width: calc(100% - 48px);
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: rise 0.6s ease-out;
+  }
+
+  .disclaimer-icon {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .disclaimer-card h2 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 24px;
+    color: var(--accent);
+  }
+
+  .disclaimer-body {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .disclaimer-body p {
+    margin-bottom: 10px;
+  }
+
+  .disclaimer-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+  }
+
+  .disclaimer-body li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 6px;
+  }
+
+  .disclaimer-body li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .disclaimer-body strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .disclaimer-final {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text) !important;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  .disclaimer-card .btn-primary {
+    display: block;
+    margin: 0 auto;
+    padding: 18px 56px;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    border-radius: 100px;
+  }
+</style>
+
+<script>
+  const disclaimer = document.getElementById("disclaimer");
+  const btn = document.getElementById("disclaimer-btn");
+
+  if (sessionStorage.getItem("disclaimed")) {
+    disclaimer.classList.add("hidden");
+  }
+
+  btn.addEventListener("click", () => {
+    sessionStorage.setItem("disclaimed", "1");
+    disclaimer.classList.add("hidden");
+  });
+</script>

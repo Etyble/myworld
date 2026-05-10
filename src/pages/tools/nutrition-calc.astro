@@ -1,0 +1,681 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="营养计算器 — MyWorld" description="看看今天吃够了没。">
+  <section class="nc">
+    <div class="container">
+      <h1 class="title">营养<span class="gradient-text">计算器</span></h1>
+      <p class="subtitle">选食物、估分量，看看今天还差什么。</p>
+
+      <!-- ===== Top: Food Selector ===== -->
+      <div class="panel panel-selector">
+        <div class="filter-bar">
+          <input type="text" id="search-input" class="search-input" placeholder="搜索食物..." />
+          <div class="category-tabs" id="category-tabs">
+            <button class="cat-tab active" data-cat="all">全部</button>
+            <button class="cat-tab" data-cat="meat">肉类</button>
+            <button class="cat-tab" data-cat="veg">蔬菜</button>
+            <button class="cat-tab" data-cat="fruit">水果</button>
+            <button class="cat-tab" data-cat="grain">主食</button>
+            <button class="cat-tab" data-cat="bean">豆制品</button>
+            <button class="cat-tab" data-cat="dairy">奶蛋</button>
+          </div>
+        </div>
+        <div class="food-grid" id="food-grid"></div>
+      </div>
+
+      <!-- ===== Bottom: Selected Foods ===== -->
+      <div class="panel panel-cart">
+        <h2>已选食物</h2>
+        <div class="cart-table-wrap">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>食物</th>
+                <th class="col-qty">数量</th>
+                <th class="col-unit">单位</th>
+                <th class="col-cal">热量</th>
+                <th class="col-p">蛋白质</th>
+                <th class="col-f">脂肪</th>
+                <th class="col-c">碳水</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cart-body">
+              <tr class="cart-empty">
+                <td colspan="8">还没有选食物，在上面点选吧。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals" id="totals"></div>
+      </div>
+
+      <p class="footnote">
+        数据基于每100g可食部估算。模糊单位（碗/盘/个）为粗略换算，仅供参考。
+        每日目标为成年人轻体力活动水平通用推荐值。
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  .nc {
+    padding: 60px 0 120px;
+  }
+
+  .title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 40%, #6366f1 70%, #a78bfa 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 6s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+
+  /* ---- Panels ---- */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .panel-selector {
+    position: sticky;
+    top: 64px;
+    z-index: 5;
+  }
+
+  /* ---- Filter ---- */
+  .filter-bar {
+    margin-bottom: 20px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: hsl(240 10% 8%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cat-tab {
+    padding: 6px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .cat-tab:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .cat-tab.active {
+    background: rgba(124, 58, 237, 0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ---- Food grid ---- */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .food-grid::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .food-grid::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  .food-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: hsl(240 10% 8%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.88rem;
+    font-family: inherit;
+    color: var(--text);
+  }
+
+  .food-item:hover {
+    border-color: var(--accent);
+  }
+
+  .food-item .emoji {
+    margin-right: 6px;
+  }
+
+  .food-item .add-icon {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1.1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .food-item:hover .add-icon {
+    opacity: 1;
+  }
+
+  /* ---- Cart table ---- */
+  .cart-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  .cart-table th {
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .cart-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .cart-table .col-qty,
+  .cart-table .col-unit,
+  .cart-table .col-cal,
+  .cart-table .col-p,
+  .cart-table .col-f,
+  .cart-table .col-c {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .cart-empty td {
+    text-align: center !important;
+    color: var(--text-muted);
+    padding: 32px 8px;
+  }
+
+  .qty-input {
+    width: 72px;
+    padding: 6px 8px;
+    background: hsl(240 10% 8%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.88rem;
+    text-align: center;
+    font-family: inherit;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+  .qty-input::-webkit-inner-spin-button,
+  .qty-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .qty-input:focus {
+    border-color: var(--accent);
+  }
+
+  .unit-select {
+    padding: 6px 10px;
+    background: hsl(240 10% 8%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .rm-btn {
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .rm-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  /* ---- Totals ---- */
+  .totals {
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .total-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .total-item {
+    text-align: center;
+  }
+
+  .total-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+
+  .total-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 999px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+
+  .total-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+
+  .total-values {
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  .total-values .target {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  .footnote {
+    margin-top: 24px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  // ---- Food database (per 100g edible portion) ----
+  interface FoodItem {
+    id: string;
+    name: string;
+    emoji: string;
+    cat: string;
+    kcal: number;
+    protein: number;
+    fat: number;
+    carbs: number;
+    fiber: number;
+    // Approx conversion for fuzzy units (grams per unit)
+    perPiece?: number;  // 个 — used for naturally countable items (fruits, eggs, buns)
+    perServing?: number; // 份 — one serving/portion (meat, fish)
+    perBowl?: number;    // 碗
+    perPlate?: number;   // 盘
+  }
+
+  const foods: FoodItem[] = [
+    // Meat
+    { id: "pork", name: "猪肉（瘦）", emoji: "🥩", cat: "meat", kcal: 143, protein: 20.3, fat: 6.2, carbs: 1.5, fiber: 0, perServing: 100 },
+    { id: "beef", name: "牛肉", emoji: "🥩", cat: "meat", kcal: 125, protein: 19.9, fat: 4.2, carbs: 2.0, fiber: 0, perServing: 100 },
+    { id: "chicken", name: "鸡胸肉", emoji: "🍗", cat: "meat", kcal: 133, protein: 19.4, fat: 5.0, carbs: 2.5, fiber: 0, perServing: 150 },
+    { id: "lamb", name: "羊肉", emoji: "🍖", cat: "meat", kcal: 203, protein: 19.0, fat: 14.1, carbs: 0, fiber: 0, perServing: 80 },
+    { id: "duck", name: "鸭肉", emoji: "🦆", cat: "meat", kcal: 240, protein: 15.5, fat: 19.7, carbs: 0.2, fiber: 0, perServing: 150 },
+    { id: "fish", name: "草鱼", emoji: "🐟", cat: "meat", kcal: 113, protein: 16.6, fat: 5.2, carbs: 0, fiber: 0, perServing: 150 },
+    { id: "shrimp", name: "虾仁", emoji: "🦐", cat: "meat", kcal: 93, protein: 18.6, fat: 0.8, carbs: 2.8, fiber: 0, perServing: 100 },
+    { id: "egg", name: "鸡蛋", emoji: "🥚", cat: "dairy", kcal: 144, protein: 13.3, fat: 8.8, carbs: 2.8, fiber: 0, perPiece: 55 },
+    { id: "sausage", name: "香肠", emoji: "🌭", cat: "meat", kcal: 508, protein: 24.1, fat: 40.7, carbs: 11.2, fiber: 0, perPiece: 50 },
+
+    // Vegetables
+    { id: "bokchoy", name: "小白菜", emoji: "🥬", cat: "veg", kcal: 15, protein: 1.5, fat: 0.3, carbs: 2.0, fiber: 0.8, perBowl: 200, perPlate: 300 },
+    { id: "spinach", name: "菠菜", emoji: "🥬", cat: "veg", kcal: 23, protein: 2.6, fat: 0.3, carbs: 4.5, fiber: 1.7, perBowl: 200, perPlate: 300 },
+    { id: "tomato", name: "番茄", emoji: "🍅", cat: "veg", kcal: 19, protein: 0.9, fat: 0.2, carbs: 4.0, fiber: 0.5, perPiece: 150 },
+    { id: "cucumber", name: "黄瓜", emoji: "🥒", cat: "veg", kcal: 15, protein: 0.8, fat: 0.2, carbs: 2.9, fiber: 0.5, perPiece: 200 },
+    { id: "broccoli", name: "西兰花", emoji: "🥦", cat: "veg", kcal: 34, protein: 2.8, fat: 0.4, carbs: 6.6, fiber: 2.6, perBowl: 200, perPlate: 300 },
+    { id: "carrot", name: "胡萝卜", emoji: "🥕", cat: "veg", kcal: 41, protein: 1.0, fat: 0.2, carbs: 9.6, fiber: 1.2, perPiece: 100 },
+    { id: "potato", name: "土豆", emoji: "🥔", cat: "veg", kcal: 76, protein: 2.0, fat: 0.2, carbs: 17.2, fiber: 0.7, perPiece: 200 },
+    { id: "lettuce", name: "生菜", emoji: "🥬", cat: "veg", kcal: 13, protein: 1.0, fat: 0.2, carbs: 2.1, fiber: 0.5, perBowl: 200 },
+    { id: "cabbage", name: "大白菜", emoji: "🥬", cat: "veg", kcal: 12, protein: 0.9, fat: 0.1, carbs: 2.2, fiber: 0.4, perBowl: 250, perPlate: 400 },
+    { id: "eggplant", name: "茄子", emoji: "🍆", cat: "veg", kcal: 25, protein: 1.0, fat: 0.2, carbs: 5.9, fiber: 1.3, perPiece: 300 },
+    { id: "corn", name: "玉米", emoji: "🌽", cat: "veg", kcal: 112, protein: 4.0, fat: 1.2, carbs: 22.8, fiber: 2.9, perPiece: 300 },
+    { id: "mushroom", name: "香菇", emoji: "🍄", cat: "veg", kcal: 26, protein: 2.2, fat: 0.3, carbs: 5.2, fiber: 3.3, perBowl: 150 },
+
+    // Fruits
+    { id: "apple", name: "苹果", emoji: "🍎", cat: "fruit", kcal: 52, protein: 0.2, fat: 0.2, carbs: 13.5, fiber: 2.4, perPiece: 200 },
+    { id: "banana", name: "香蕉", emoji: "🍌", cat: "fruit", kcal: 91, protein: 1.4, fat: 0.2, carbs: 22.0, fiber: 1.2, perPiece: 120 },
+    { id: "orange", name: "橙子", emoji: "🍊", cat: "fruit", kcal: 47, protein: 0.8, fat: 0.2, carbs: 11.1, fiber: 0.6, perPiece: 200 },
+    { id: "grape", name: "葡萄", emoji: "🍇", cat: "fruit", kcal: 69, protein: 0.5, fat: 0.2, carbs: 17.2, fiber: 0.4, perBowl: 300 },
+    { id: "watermelon", name: "西瓜", emoji: "🍉", cat: "fruit", kcal: 31, protein: 0.5, fat: 0.1, carbs: 7.5, fiber: 0.2, perBowl: 400 },
+    { id: "strawberry", name: "草莓", emoji: "🍓", cat: "fruit", kcal: 32, protein: 0.7, fat: 0.2, carbs: 7.1, fiber: 1.1, perBowl: 200 },
+    { id: "kiwi", name: "猕猴桃", emoji: "🥝", cat: "fruit", kcal: 61, protein: 0.8, fat: 0.6, carbs: 14.5, fiber: 2.6, perPiece: 80 },
+
+    // Grains
+    { id: "rice", name: "米饭", emoji: "🍚", cat: "grain", kcal: 116, protein: 2.6, fat: 0.3, carbs: 25.9, fiber: 0.3, perBowl: 200 },
+    { id: "noodle", name: "面条（煮）", emoji: "🍜", cat: "grain", kcal: 138, protein: 3.8, fat: 0.5, carbs: 28.5, fiber: 0.5, perBowl: 300 },
+    { id: "bread", name: "吐司面包", emoji: "🍞", cat: "grain", kcal: 278, protein: 8.4, fat: 3.0, carbs: 55.3, fiber: 1.4, perPiece: 40 },
+    { id: "dumpling", name: "饺子", emoji: "🥟", cat: "grain", kcal: 240, protein: 7.5, fat: 8.0, carbs: 33.5, fiber: 1.2, perPiece: 25, perPlate: 300 },
+    { id: "baozi", name: "包子", emoji: "🫓", cat: "grain", kcal: 223, protein: 7.3, fat: 5.2, carbs: 37.0, fiber: 1.8, perPiece: 80 },
+    { id: "oatmeal", name: "燕麦片", emoji: "🥣", cat: "grain", kcal: 379, protein: 13.5, fat: 6.5, carbs: 67.7, fiber: 5.3, perBowl: 50 },
+
+    // Beans
+    { id: "tofu", name: "豆腐", emoji: "🧈", cat: "bean", kcal: 76, protein: 8.1, fat: 3.7, carbs: 4.2, fiber: 0.4, perPiece: 300 },
+    { id: "soymilk", name: "豆浆", emoji: "🥛", cat: "bean", kcal: 31, protein: 3.0, fat: 1.6, carbs: 1.2, fiber: 0.4, perBowl: 300 },
+    { id: "edamame", name: "毛豆", emoji: "🫘", cat: "bean", kcal: 131, protein: 13.1, fat: 5.0, carbs: 10.5, fiber: 4.0, perBowl: 200 },
+
+    // Dairy
+    { id: "milk", name: "牛奶", emoji: "🥛", cat: "dairy", kcal: 54, protein: 3.0, fat: 3.2, carbs: 3.4, fiber: 0, perBowl: 250 },
+    { id: "yogurt", name: "酸奶", emoji: "🍦", cat: "dairy", kcal: 72, protein: 2.5, fat: 2.7, carbs: 9.3, fiber: 0, perBowl: 200 },
+  ];
+
+  // Daily targets (adult, moderate activity)
+  const targets = {
+    kcal: 2000,
+    protein: 65,
+    fat: 60,
+    carbs: 280,
+    fiber: 25,
+  };
+
+  // Cart state: { [foodId]: { food: FoodItem, qty: number, unit: string } }
+  const cart: Record<string, { food: FoodItem; qty: number; unit: string }> = {};
+
+  // ---- Render food grid ----
+  let currentCat = "all";
+  let searchQuery = "";
+
+  function renderFoodGrid() {
+    const grid = document.getElementById("food-grid")!;
+    let filtered = foods;
+
+    if (currentCat !== "all") {
+      filtered = filtered.filter(f => f.cat === currentCat);
+    }
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(f => f.name.toLowerCase().includes(q) || f.id.includes(q));
+    }
+
+    grid.innerHTML = filtered
+      .map(
+        (f) =>
+          '<button class="food-item" data-id="' + f.id + '"><span><span class="emoji">' + f.emoji + '</span>' + f.name + '</span><span class="add-icon">+</span></button>'
+      )
+      .join("");
+
+    // Click handler
+    grid.querySelectorAll(".food-item").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        addToCart((btn as HTMLElement).dataset.id!);
+      });
+    });
+  }
+
+  // ---- Cart operations ----
+  function addToCart(foodId: string) {
+    if (cart[foodId]) return; // already in cart
+    const food = foods.find((f) => f.id === foodId);
+    if (!food) return;
+    cart[foodId] = { food, qty: 100, unit: "g" };
+    renderCart();
+    renderTotals();
+  }
+
+  function removeFromCart(foodId: string) {
+    delete cart[foodId];
+    renderCart();
+    renderTotals();
+  }
+
+  function updateCartQty(foodId: string, qty: number) {
+    if (cart[foodId]) {
+      cart[foodId].qty = Math.max(1, qty);
+      renderTotals();
+    }
+  }
+
+  function updateCartUnit(foodId: string, unit: string) {
+    const entry = cart[foodId];
+    if (!entry) return;
+    entry.unit = unit;
+
+    // Convert approximate units
+    const { food } = entry;
+    if (unit === "g") {
+      entry.qty = 100;
+    } else if (unit === "piece" && food.perPiece) {
+      entry.qty = 1;
+    } else if (unit === "serving" && food.perServing) {
+      entry.qty = 1;
+    } else if (unit === "bowl" && food.perBowl) {
+      entry.qty = 1;
+    } else if (unit === "plate" && food.perPlate) {
+      entry.qty = 1;
+    }
+
+    renderCart();
+    renderTotals();
+  }
+
+  function getGrams(entry: { food: FoodItem; qty: number; unit: string }): number {
+    if (entry.unit === "g") return entry.qty;
+    if (entry.unit === "piece" && entry.food.perPiece) return entry.qty * entry.food.perPiece;
+    if (entry.unit === "serving" && entry.food.perServing) return entry.qty * entry.food.perServing;
+    if (entry.unit === "bowl" && entry.food.perBowl) return entry.qty * entry.food.perBowl;
+    if (entry.unit === "plate" && entry.food.perPlate) return entry.qty * entry.food.perPlate;
+    return entry.qty * 100; // fallback
+  }
+
+  function renderCart() {
+    const tbody = document.getElementById("cart-body")!;
+    const entries = Object.entries(cart);
+
+    if (entries.length === 0) {
+      tbody.innerHTML = '<tr class="cart-empty"><td colspan="8">还没有选食物，在上面点选吧。</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = entries
+      .map(([id, entry]) => {
+        const { food, qty, unit } = entry;
+        const grams = getGrams(entry);
+        const mult = grams / 100;
+        const hasPiece = food.perPiece != null;
+        const hasServing = food.perServing != null;
+        const hasBowl = food.perBowl != null;
+        const hasPlate = food.perPlate != null;
+
+        return '<tr>' +
+          '<td>' + food.emoji + ' ' + food.name + '</td>' +
+          '<td class="col-qty"><input class="qty-input" type="number" value="' + qty + '" min="1" data-id="' + id + '" data-field="qty" /></td>' +
+          '<td class="col-unit"><select class="unit-select" data-id="' + id + '" data-field="unit">' +
+            '<option value="g"' + (unit === "g" ? " selected" : "") + '>g</option>' +
+            (hasServing ? '<option value="serving"' + (unit === "serving" ? " selected" : "") + '>份</option>' : '') +
+            (hasPiece ? '<option value="piece"' + (unit === "piece" ? " selected" : "") + '>个</option>' : '') +
+            (hasBowl ? '<option value="bowl"' + (unit === "bowl" ? " selected" : "") + '>碗</option>' : '') +
+            (hasPlate ? '<option value="plate"' + (unit === "plate" ? " selected" : "") + '>盘</option>' : '') +
+          '</select></td>' +
+          '<td class="col-cal">' + Math.round(food.kcal * mult) + '</td>' +
+          '<td class="col-p">' + (food.protein * mult).toFixed(1) + '</td>' +
+          '<td class="col-f">' + (food.fat * mult).toFixed(1) + '</td>' +
+          '<td class="col-c">' + (food.carbs * mult).toFixed(1) + '</td>' +
+          '<td><button class="rm-btn" data-id="' + id + '" data-action="remove">✕</button></td>' +
+          '</tr>';
+      })
+      .join("");
+
+    // Bind events
+    tbody.querySelectorAll(".qty-input").forEach((input) => {
+      input.addEventListener("input", () => {
+        const el = input as HTMLInputElement;
+        updateCartQty(el.dataset.id!, parseInt(el.value) || 1);
+      });
+    });
+    tbody.querySelectorAll(".unit-select").forEach((select) => {
+      select.addEventListener("change", () => {
+        const el = select as HTMLSelectElement;
+        updateCartUnit(el.dataset.id!, el.value);
+        renderCart();
+        renderTotals();
+      });
+    });
+    tbody.querySelectorAll(".rm-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        removeFromCart((btn as HTMLElement).dataset.id!);
+      });
+    });
+  }
+
+  function renderTotals() {
+    const container = document.getElementById("totals")!;
+    const entries = Object.values(cart);
+
+    if (entries.length === 0) {
+      container.innerHTML = "";
+      return;
+    }
+
+    let totalKcal = 0, totalProtein = 0, totalFat = 0, totalCarbs = 0, totalFiber = 0;
+    entries.forEach((entry) => {
+      const mult = getGrams(entry) / 100;
+      totalKcal += entry.food.kcal * mult;
+      totalProtein += entry.food.protein * mult;
+      totalFat += entry.food.fat * mult;
+      totalCarbs += entry.food.carbs * mult;
+      totalFiber += entry.food.fiber * mult;
+    });
+
+    const nutrients = [
+      { label: "热量", value: totalKcal, target: targets.kcal, unit: "kcal", fmt: (v: number) => Math.round(v).toString() },
+      { label: "蛋白质", value: totalProtein, target: targets.protein, unit: "g", fmt: (v: number) => v.toFixed(1) },
+      { label: "脂肪", value: totalFat, target: targets.fat, unit: "g", fmt: (v: number) => v.toFixed(1) },
+      { label: "碳水", value: totalCarbs, target: targets.carbs, unit: "g", fmt: (v: number) => v.toFixed(1) },
+      { label: "膳食纤维", value: totalFiber, target: targets.fiber, unit: "g", fmt: (v: number) => v.toFixed(1) },
+    ];
+
+    container.innerHTML = '<div class="total-grid">' +
+      nutrients
+        .map((n) => {
+          const pct = Math.min(100, (n.value / n.target) * 100);
+          let color = "#22c55e";
+          if (pct > 95) color = "#f59e0b";
+          if (pct > 110) color = "#ef4444";
+
+          return (
+            '<div class="total-item">' +
+            '<div class="total-label">' + n.label + '</div>' +
+            '<div class="total-bar-wrap"><div class="total-bar-fill" style="width:' + pct + '%;background:' + color + ';"></div></div>' +
+            '<div class="total-values">' + n.fmt(n.value) + ' ' + n.unit + ' <span class="target">/ ' + n.target + '</span></div>' +
+            '</div>'
+          );
+        })
+        .join("") +
+      '</div>';
+  }
+
+  // ---- Filter & search ----
+  document.getElementById("category-tabs")!.addEventListener("click", (e) => {
+    const btn = (e.target as HTMLElement).closest(".cat-tab");
+    if (!btn) return;
+    document.querySelectorAll(".cat-tab").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentCat = (btn as HTMLElement).dataset.cat!;
+    renderFoodGrid();
+  });
+
+  const searchInput = document.getElementById("search-input")!;
+  let searchTimer: ReturnType<typeof setTimeout>;
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = (searchInput as HTMLInputElement).value.trim();
+      renderFoodGrid();
+    }, 200);
+  });
+
+  // ---- Init ----
+  renderFoodGrid();
+</script>
