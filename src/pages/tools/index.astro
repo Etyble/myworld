@@ -9,7 +9,7 @@ import Layout from "../../layouts/Layout.astro";
       <p class="page-desc">一些小工具，一些实验，也许有用，也许只是好玩。</p>
 
       <div class="tool-grid">
-        <a href="/tools/cyber-mirror" class="tool-card">
+        <a href={import.meta.env.BASE_URL + "/tools/cyber-mirror"} class="tool-card">
           <div class="tool-icon">◇</div>
           <h2>赛博镜像</h2>
           <p>
@@ -19,7 +19,7 @@ import Layout from "../../layouts/Layout.astro";
           <span class="tool-tag">人格图谱</span>
         </a>
 
-        <a href="/tools/nutrition-calc" class="tool-card">
+        <a href={import.meta.env.BASE_URL + "/tools/nutrition-calc"} class="tool-card">
           <div class="tool-icon">⚖</div>
           <h2>营养计算器</h2>
           <p>

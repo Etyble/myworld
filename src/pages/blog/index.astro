@@ -9,7 +9,7 @@ import Layout from "../../layouts/Layout.astro";
       <div class="post-list">
         <article class="post-item">
           <time>2026.05.10</time>
-          <h2><a href="/blog/first">Getting Started</a></h2>
+          <h2><a href={import.meta.env.BASE_URL + "/blog/first"}>Getting Started</a></h2>
           <p>The first post on MyWorld. Why I built this and what to expect.</p>
         </article>
         <div class="empty">More posts coming soon.</div>
