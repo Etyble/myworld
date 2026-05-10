@@ -1,5 +1,9 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <Layout title="Blog — MyWorld" description="Writings and thoughts.">
@@ -7,12 +11,17 @@ import Layout from "../../layouts/Layout.astro";
     <div class="container">
       <h1 class="page-title">Blog</h1>
       <div class="post-list">
-        <article class="post-item">
-          <time>2026.05.10</time>
-          <h2><a href={import.meta.env.BASE_URL + "/blog/first"}>Getting Started</a></h2>
-          <p>The first post on MyWorld. Why I built this and what to expect.</p>
-        </article>
-        <div class="empty">More posts coming soon.</div>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <article class="post-item">
+              <time>{post.data.date.toLocaleDateString("zh-CN")}</time>
+              <h2><a href={import.meta.env.BASE_URL + "/blog/" + post.slug}>{post.data.title}</a></h2>
+              <p>{post.data.description}</p>
+            </article>
+          ))
+        ) : (
+          <div class="empty">还没有文章。</div>
+        )}
       </div>
     </div>
   </section>
