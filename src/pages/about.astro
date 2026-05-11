@@ -407,8 +407,8 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
-  const tabs = document.querySelectorAll(".folder-tab");
-  const pages = document.querySelectorAll(".dossier-page");
+  const tabs = document.querySelectorAll<HTMLElement>(".folder-tab");
+  const pages = document.querySelectorAll<HTMLElement>(".dossier-page");
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
