@@ -37,7 +37,7 @@ import Layout from "../layouts/Layout.astro";
             <div class="id-photo">
               <div class="photo-placeholder">
                 <img
-                  src={import.meta.env.BASE_URL + "/avatar.jpg"}
+                  src={import.meta.env.BASE_URL === "/" ? "/avatar.jpg" : import.meta.env.BASE_URL + "/avatar.jpg"}
                   alt="Etyble"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
                 />

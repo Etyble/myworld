@@ -16,7 +16,7 @@ writings.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
           writings.map((w) => (
             <article class="post-item">
               <time>{w.data.date.toLocaleDateString("zh-CN")}</time>
-              <h2><a href={import.meta.env.BASE_URL + "/writings/" + w.id}>{w.data.title}</a></h2>
+              <h2><a href={import.meta.env.BASE_URL === "/" ? "/writings/" + w.id : import.meta.env.BASE_URL + "/writings/" + w.id}>{w.data.title}</a></h2>
               <p>{w.data.description}</p>
             </article>
           ))
