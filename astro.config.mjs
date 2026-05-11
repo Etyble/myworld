@@ -6,5 +6,5 @@ const isCloudflare = !!process.env.CF_PAGES;
 export default defineConfig({
   output: "static",
   site: isCloudflare ? undefined : "https://etyble.github.io",
-  base: isCloudflare ? "/" : "/myworld",
+  base: isCloudflare ? "/" : "/myblog",
 });

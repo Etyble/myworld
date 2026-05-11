@@ -12,10 +12,8 @@ import Layout from "../layouts/Layout.astro";
         <button class="folder-tab" data-page="2">卷二 · 职业能力</button>
       </div>
 
-      <!-- Pages wrapper -->
-      <div class="pages-wrapper">
-        <!-- ===== Page 1: Main Dossier ===== -->
-        <div class="dossier-page active" data-page="1">
+      <!-- ===== Page 1: Main Dossier ===== -->
+      <div class="dossier-page active" data-page="1">
         <div class="dossier-panel">
 
         <!-- Top strip: header -->
@@ -62,7 +60,7 @@ import Layout from "../layouts/Layout.astro";
                 <div class="core-bar">
                   <span class="core-label">理智</span>
                   <div class="core-track"><i style="width:58%"></i></div>
-                  <span class="core-val">58/100</span>
+                  <span class="core-val">38/100</span>
                 </div>
                 <div class="core-bar">
                   <span class="core-label">创造力</span>
@@ -72,7 +70,7 @@ import Layout from "../layouts/Layout.astro";
                 <div class="core-bar">
                   <span class="core-label">行动力</span>
                   <div class="core-track"><i style="width:64%"></i></div>
-                  <span class="core-val">64/100</span>
+                  <span class="core-val">84/100</span>
                 </div>
               </div>
             </div>
@@ -402,7 +400,6 @@ import Layout from "../layouts/Layout.astro";
         </div>
       </div>
         </div>
-      </div>
   </section>
 </Layout>
 
@@ -470,6 +467,18 @@ import Layout from "../layouts/Layout.astro";
     opacity: 1;
     color: var(--accent);
     background: var(--surface);
+    position: relative;
+    z-index: 1;
+  }
+
+  .folder-tab.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--surface);
   }
 
   /* ---- Pages Wrapper (global for JS toggle) ---- */
@@ -505,7 +514,7 @@ import Layout from "../layouts/Layout.astro";
   .badge-class {
     font-size: 0.62rem;
     letter-spacing: 0.2em;
-    color: #8b6914;
+    color: var(--accent);
     font-weight: 700;
     text-transform: uppercase;
   }
@@ -532,14 +541,14 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .panel-class {
-    color: #ef4444;
+    color: var(--accent);
     font-weight: 700;
     letter-spacing: 0.2em;
     font-size: 0.7rem;
   }
 
   .panel-class.panel-public {
-    color: #22c55e;
+    color: var(--accent);
   }
 
   .panel-body {
@@ -584,7 +593,7 @@ import Layout from "../layouts/Layout.astro";
     width: 100px;
     height: 120px;
     background: var(--bg);
-    border: 2px solid #8b6914;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -627,7 +636,7 @@ import Layout from "../layouts/Layout.astro";
   .photo-note {
     margin-top: 6px;
     font-size: 0.65rem;
-    color: #8b6914;
+    color: var(--accent);
     line-height: 1.5;
     text-align: center;
     font-style: italic;
@@ -675,8 +684,8 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .status-dot.active {
-    background: #22c55e;
-    box-shadow: 0 0 6px #22c55e;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent-glow);
   }
 
   .core-bars {
@@ -711,7 +720,7 @@ import Layout from "../layouts/Layout.astro";
   .core-track i {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #8b6914, var(--accent));
+    background: linear-gradient(90deg, var(--accent), var(--accent));
   }
 
   .core-val {
@@ -737,7 +746,7 @@ import Layout from "../layouts/Layout.astro";
   .block h3 {
     font-size: 0.72rem;
     letter-spacing: 0.15em;
-    color: #8b6914;
+    color: var(--accent);
     margin-bottom: 14px;
     text-transform: uppercase;
   }
@@ -806,7 +815,7 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .threat-minimal {
-    color: #22c55e !important;
+    color: var(--accent) !important;
   }
 
   /* ---- Psych ---- */
@@ -818,9 +827,9 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .eval-stamp {
-    color: #22c55e !important;
+    color: var(--accent) !important;
     font-weight: 600;
-    border-left: 2px solid #22c55e;
+    border-left: 2px solid var(--accent);
     padding-left: 12px;
   }
 
@@ -876,7 +885,7 @@ import Layout from "../layouts/Layout.astro";
   .skill-bar i {
     display: block;
     height: 100%;
-    background: linear-gradient(90deg, #8b6914, var(--accent));
+    background: linear-gradient(90deg, var(--accent), var(--accent));
   }
 
   .skill p {
@@ -984,18 +993,18 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .ops-high .ops-tag {
-    color: #22c55e;
-    background: rgba(34,197,94,0.1);
+    color: var(--accent);
+    background: rgba(124,58,237,0.1);
   }
 
   .ops-mid .ops-tag {
-    color: #f59e0b;
-    background: rgba(245,158,11,0.1);
+    color: var(--text-muted);
+    background: rgba(124,58,237,0.08);
   }
 
   .ops-low .ops-tag {
-    color: #ef4444;
-    background: rgba(239,68,68,0.1);
+    color: var(--accent);
+    background: rgba(124,58,237,0.06);
   }
 
   /* ---- Comms ---- */
@@ -1019,7 +1028,7 @@ import Layout from "../layouts/Layout.astro";
     display: block;
     font-size: 0.62rem;
     letter-spacing: 0.12em;
-    color: #8b6914;
+    color: var(--accent);
     margin-bottom: 4px;
     font-style: normal;
   }
@@ -1062,18 +1071,47 @@ import Layout from "../layouts/Layout.astro";
 </style>
 
 <style is:global>
-  .pages-wrapper {
-    position: relative;
-    overflow: hidden;
-  }
-
   .dossier-page {
     display: none;
+    position: relative;
   }
 
   .dossier-page.active {
     display: block;
     animation: page-flip-in 0.35s ease-out;
+  }
+
+  /* Peek: stacked dossier edges (top + right) */
+  .dossier-page.active .dossier-panel {
+    position: relative;
+  }
+
+  .dossier-page.active .dossier-panel::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 4px;
+    right: -5px;
+    bottom: -5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    z-index: -2;
+    opacity: 0.4;
+  }
+
+  .dossier-page.active .dossier-panel::after {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 2px;
+    right: -9px;
+    bottom: -9px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    z-index: -3;
+    opacity: 0.25;
   }
 
   @keyframes page-flip-in {

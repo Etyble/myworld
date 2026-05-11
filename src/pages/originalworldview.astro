@@ -1,20 +1,248 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+
+const entries = await getCollection("worldview", ({ data }) => !data.draft);
+entries.sort((a, b) => a.data.order - b.data.order);
+
+const categories: Record<string, typeof entries> = {};
+entries.forEach((e) => {
+  (categories[e.data.category] ??= []).push(e);
+});
+const catNames = Object.keys(categories).sort();
+
+// Pre-render bodies to hidden HTML blocks
+const rendered: { id: string; name: string; category: string; tags: string[]; summary?: string }[] = [];
+for (const e of entries) {
+  rendered.push({
+    id: e.id,
+    name: e.data.name,
+    category: e.data.category,
+    tags: e.data.tags,
+    summary: e.data.summary,
+  });
+}
 ---
 
-<Layout title="设定集 — MyWorld" description="世界设定与创作。">
-  <section class="section">
-    <div class="container">
-      <h1 class="page-title">设定集</h1>
-      <p class="page-desc">我的世界观、故事设定、角色档案。</p>
-      <div class="empty">内容准备中，敬请期待。</div>
+<Layout title="设定集 — MyWorld" description="世界观、种族、地理与历史设定。">
+  <section class="wv-page">
+    <div class="wv-layout">
+      <!-- ===== Sidebar ===== -->
+      <aside class="wv-sidebar">
+        <h2>设定集</h2>
+        {catNames.map((cat) => (
+          <div class="cat-group">
+            <button class="cat-toggle" data-cat={cat}>
+              <span class="cat-arrow">▸</span>
+              <span class="cat-name">{cat}</span>
+              <span class="cat-count">{categories[cat].length}</span>
+            </button>
+            <div class="cat-items" style="display:none;">
+              {categories[cat].map((e) => (
+                <button class="entry-link" data-id={e.id}>
+                  {e.data.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </aside>
+
+      <!-- ===== Detail Panel ===== -->
+      <main class="wv-detail" id="wv-detail">
+        <div class="wv-placeholder">
+          <p>← 从左侧选择一个条目以查看详情</p>
+        </div>
+      </main>
+    </div>
+
+    <!-- Hidden pre-rendered entries -->
+    <div style="display:none;" id="wv-cache">
+      {entries.map((e) => (
+        <div id={`wv-${e.id}`}>
+          <div class="wv-detail-content">
+            <h1>{e.data.name}</h1>
+            <div class="meta-row">
+              <span class="meta-tag">{e.data.category}</span>
+              {e.data.tags.map((t: string) => <span class="meta-tag">{t}</span>)}
+            </div>
+            {e.data.summary && <p class="meta-summary">{e.data.summary}</p>}
+            <div class="wv-body">
+              {e.body ? <Fragment set:html={e.body} /> : null}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   </section>
 </Layout>
 
 <style>
-  .section { padding: 80px 0; }
-  .page-title { font-size: 2.5rem; margin-bottom: 8px; }
-  .page-desc { color: var(--text-muted); margin-bottom: 48px; }
-  .empty { color: var(--text-muted); font-style: italic; }
+  .wv-page { padding: 40px 0 80px; min-height: 100vh; }
+
+  .wv-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    min-height: calc(100vh - 200px);
+  }
+
+  /* ---- Sidebar ---- */
+  .wv-sidebar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius) 0 0 var(--radius);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 160px);
+    position: sticky;
+    top: 72px;
+  }
+
+  .wv-sidebar h2 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cat-group { margin-bottom: 4px; }
+
+  .cat-toggle {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 8px 10px;
+    background: transparent; border: none; border-radius: 6px;
+    color: var(--text); font-size: 0.88rem; font-family: inherit;
+    cursor: pointer; transition: background 0.15s; text-align: left;
+  }
+
+  .cat-toggle:hover { background: var(--bg); }
+
+  .cat-arrow {
+    font-size: 0.65rem; transition: transform 0.2s;
+    color: var(--text-muted); width: 12px; flex-shrink: 0;
+  }
+
+  .cat-toggle.open .cat-arrow { transform: rotate(90deg); }
+
+  .cat-name { flex: 1; font-weight: 600; }
+
+  .cat-count {
+    font-size: 0.7rem; color: var(--text-muted);
+    background: var(--bg); padding: 2px 8px; border-radius: 100px;
+  }
+
+  .cat-items {
+    padding-left: 20px; margin: 2px 0 8px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  .entry-link {
+    display: block; width: 100%; padding: 7px 10px;
+    background: transparent; border: none; border-radius: 6px;
+    color: var(--text-muted); font-size: 0.82rem; font-family: inherit;
+    cursor: pointer; transition: all 0.15s; text-align: left;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .entry-link:hover { background: var(--bg); color: var(--text); }
+  .entry-link.active { background: rgba(124,58,237,0.12); color: var(--accent); }
+
+  /* ---- Detail Panel ---- */
+  .wv-detail {
+    background: var(--surface);
+    border: 1px solid var(--border); border-left: none;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 32px 36px; min-height: 400px;
+  }
+
+  .wv-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    height: 300px; color: var(--text-muted); font-size: 0.9rem;
+  }
+
+  .wv-detail-content h1 { font-size: 1.8rem; margin-bottom: 8px; }
+
+  .wv-detail-content .meta-row {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+
+  .wv-detail-content .meta-tag {
+    font-size: 0.7rem; padding: 3px 10px;
+    background: rgba(124,58,237,0.1); color: var(--accent);
+    border-radius: 100px;
+  }
+
+  .wv-detail-content .meta-summary {
+    font-size: 0.92rem; color: var(--text); line-height: 1.7;
+    margin-bottom: 24px; padding: 14px 16px;
+    background: var(--bg); border-left: 2px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .wv-body { color: var(--text-muted); line-height: 1.85; font-size: 0.9rem; }
+
+  .wv-body :global(h2) {
+    font-size: 1.05rem; color: var(--accent);
+    margin: 1.6em 0 0.5em; letter-spacing: 0.04em;
+  }
+
+  .wv-body :global(h2:first-child) { margin-top: 0; }
+  .wv-body :global(strong) { color: var(--text); }
+  .wv-body :global(ul) { padding-left: 18px; margin: 8px 0; }
+  .wv-body :global(li) { margin-bottom: 4px; }
+
+  @media (max-width: 750px) {
+    .wv-layout { grid-template-columns: 1fr; }
+    .wv-sidebar {
+      position: static; max-height: none;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .wv-detail {
+      border-left: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 24px 20px;
+    }
+  }
 </style>
+
+<script>
+  // Collapsible categories
+  document.querySelectorAll(".cat-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cat = (btn as HTMLElement).dataset.cat!;
+      const items = btn.nextElementSibling as HTMLElement;
+      const isOpen = items.style.display !== "none";
+      items.style.display = isOpen ? "none" : "block";
+      btn.classList.toggle("open", !isOpen);
+    });
+  });
+
+  // Auto-open first
+  const firstToggle = document.querySelector(".cat-toggle") as HTMLElement | null;
+  if (firstToggle) firstToggle.click();
+
+  // Entry selection: swap cached HTML into detail panel
+  const detail = document.getElementById("wv-detail")!;
+  const cache = document.getElementById("wv-cache")!;
+
+  document.querySelectorAll(".entry-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const id = (link as HTMLElement).dataset.id!;
+      document.querySelectorAll(".entry-link").forEach((l) => l.classList.remove("active"));
+      link.classList.add("active");
+
+      const cached = document.getElementById(`wv-${id}`);
+      if (cached) {
+        detail.innerHTML = cached.innerHTML;
+      }
+    });
+  });
+
+  // Auto-select first
+  const firstEntry = document.querySelector(".entry-link") as HTMLElement | null;
+  if (firstEntry) firstEntry.click();
+</script>
